@@ -1,0 +1,14 @@
+$LinesWithPrompt $filePath
+#!/usr/bin/env bash
+
+while IFS= read -r content
+do
+    line="$content"
+    lineStart="->"
+
+    for word in $line; 
+    do 
+        echo $lineStart: $word
+    done
+
+done < "$1"

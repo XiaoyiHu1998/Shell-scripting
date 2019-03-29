@@ -1,0 +1,97 @@
+$maakLogin $passwordDir
+#!/usr/bin/env bash
+
+if test ! -e $1;
+then
+    touch $1
+fi
+
+passwordDir=$1
+while IFS= read -r content
+do
+  savedPassword="$content"
+done < "$passwordDir"
+
+
+echo "username:"
+read username
+
+if test -z $username;
+then
+    username="$(whoami)"
+fi
+
+echo "password:"
+read password
+
+while true; 
+do
+    length=${#password}
+
+    smallChar=("a" "b" "c" "d" "e" "f" "g" "h" "i" "j" "k" "l" "m" "n" "o" "p" "q" "r" "s" "t" "u" "v" "w" "x" "y" "z")
+    capitalChar=("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z")
+    numberChar=("1" "2" "3" "4" "5" "6" "7" "8" "9" "0")
+
+    for index in {0..25};
+    do
+        if [[ $password =~ ${smallChar[$index]} ]];
+        then
+            smallCharFound=1
+            break
+        else
+            smallCharFound=0
+        fi
+    done
+
+    for index in {0..25};
+    do
+        if [[ $password =~ ${capitalChar[index]} ]];
+        then
+            capitalCharFound=1
+            break
+        else
+            capitalCharFound=0
+        fi
+    done
+
+    for index in {0..9};
+    do
+        if [[ $password =~ ${numberChar[$index]} ]];
+        then
+            numberFound=1
+            break
+        else
+            numberFound=0
+        fi
+    done
+
+    password=$username$password
+
+    hashedPassword="$(echo -n $password | /usr/bin/md5sum)"
+
+    # echo $smallCharFound \
+    # echo $capitalCharFound \
+    # echo $numberFound \
+    # echo $length \
+    # echo $password \
+    # echo $savedPassword \
+    # echo $hashedPassword \
+
+    if [[ $smallCharFound == 1 && $capitalCharFound == 1 && $numberFound == 1 && $length -gt 7 ]];
+    then 
+        if [[ $hashedPassword == $savedPassword ]];
+        then
+            echo "logged in."
+            break
+        else
+            echo "password and username dont match."
+            echo "password:"
+            read password
+        fi
+    else
+        echo "Password needs to contain small characters, capital characters, numbers and be longer than 8 characters."
+        echo "password:"
+        read password
+    fi
+
+done

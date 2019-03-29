@@ -1,0 +1,9 @@
+$vakantieFotos vacationImagePath
+#!/usr/bin/env bash
+
+mkdir /home/hu/Afbeeldingen/Vakantie
+
+for i in $1; do
+    find $1 -type f -name "*vakantie*.jpg" -exec mv '{}' "/home/hu/Afbeeldingen/Vakantie" \;
+    find $1-type f -name "*vakantie*.png" -exec mv '{}' "/home/hu/Afbeeldingen/Vakantie" \;
+done

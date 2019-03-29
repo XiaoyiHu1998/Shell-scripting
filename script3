@@ -1,0 +1,11 @@
+$naarPNG $imagePath
+#!/usr/bin/env bash
+
+for image in $1; do
+    FileName="$(find $1 -type f -name "*.jpg" -exec basename "{}" .jpg \;)"
+
+    for name in $FileName; do
+        convert "$1/$name.jpg" -resize 128x128 "$1/$name.png"
+        echo $name
+    done
+done

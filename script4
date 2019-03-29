@@ -1,0 +1,17 @@
+$checkStatus $FilePath $command
+#!usr/bin/env bash
+
+if test -e /home/hu/log;
+then
+    rm /home/hu/log
+    touch /home/hu/log
+else
+    touch /home/hu/log
+fi
+
+for file in $1; do
+    if ! test $2 "$file";
+    then
+        echo $1 >> /home/hu/log
+    fi
+done

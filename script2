@@ -1,0 +1,10 @@
+$telBestandtypes $args
+#!/usr/bin/env bash
+
+n=1
+typeList=${@:2}
+
+for arg in $typeList; do
+    filecount="$(find ${!n} -type f -name "*.$arg" | wc -l)"
+    echo "$arg:$filecount"
+done

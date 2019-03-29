@@ -1,0 +1,9 @@
+$sorteerAfbeeldingen imagePath
+#!/usr/bin/env bash
+
+mkdir /home/hu/Afbeeldingen
+
+for i in $1; do
+    find $1 -type f -name "*.jpg" -exec mv '{}' "/home/hu/Afbeeldingen" \;
+    find $1 -type f -name "*.png" -exec mv '{}' "/home/hu/Afbeeldingen" \;
+done
